@@ -1,10 +1,11 @@
-// 問題文とページ数の組を作る
+// 問題文と最初のページ数と全ページ数の組(sentence, pagenum(num), allpage(num-num))を作る
 const separatePage = (sentence) => {
     let start = sentence.lastIndexOf('(p.'); // '(p.'を探して切り出すstart位置を決める
-    let p = sentence.substr(start + 4, 3); // 数字部分からの3文字を切り出す
-    let sentenceOnly = sentence.slice(0, start); // 問題文だけを取り出す
+    let p = sentence.substr(start + 4, 3); // 数字部分からの3文字を切り出す（教科書が3桁ページまでだから）
+    let sentenceOnly = sentence.slice(0, start-1); // 問題文だけを取り出す
     let pagenum = Number(p.replace(/[^0-9]/g, '')); // 数字だけ取り出す
-    return [sentenceOnly, pagenum];
+    let allpage = sentence.slice(start); //全ページを取り出す（特に複数にまたがるページ）
+    return [sentenceOnly, pagenum, allpage];
 };
 
 
@@ -47,7 +48,7 @@ const saveAnswer = (qKey) => {
 let allList = [...document.getElementsByTagName('li')];
 let list = [];
 
-// allList から3つまとめた li 要素を除いて問題文だけにする。
+// allList から3つまとめた li 要素を除いて問題文だけにする。（生徒はちょうど3つだけ問題を作るから）
 for ( let i in allList ){
     if ( i % 4 != 0 ){
         list.push(allList[i].innerText);
@@ -57,8 +58,8 @@ for ( let i in allList ){
 // 問題文(key)とページ(value)の連想配列を作成
 let dict = {};
 for ( let i in list ){
-    let [ s , p ] = separatePage(list[i]);
-    dict['(p.' + p + ') ' + s] = p;
+    let [ s, p, a ] = separatePage(list[i]);
+    dict[a + s] = p;
 }
 
 // 問題文をページ順にソート
