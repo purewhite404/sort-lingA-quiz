@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Sort LingA Quiz",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "口述試験問題をページ順に並べ替えます",
   "content_scripts": [
     {
