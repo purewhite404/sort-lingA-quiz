@@ -3,7 +3,6 @@
   "name": "Sort LingA Quiz",
   "version": "0.0.3",
   "description": "口述試験問題をページ順に並べ替えます",
-  "permissions": ["declarativeContent"],
   "content_scripts": [
     {
       "matches": ["https://cuckoo.js.ila.titech.ac.jp/~yamagen/ling/cgi-bin/T2S.cgi?q=lingtest2020"],
