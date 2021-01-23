@@ -17,7 +17,7 @@ const addQA = (listItem, question) => {
 
     // 自分の解答
     const answerElem = document.createElement('input');
-    answerElem.setAttribute('size', 160)
+    answerElem.setAttribute('size', 160);
     answerElem.setAttribute('id', 'answer' + question);
     const answerNode = document.createElement('p');
     answerNode.appendChild(answerElem);
@@ -27,14 +27,10 @@ const addQA = (listItem, question) => {
 };
 
 // 自分の解答をロードする
-const loadAnswer = (qs) => {
-    for ( let qKey of qs ){
-        const key = 'answer' + qKey;
-        const saveValue = localStorage.getItem(key);
-        if (saveValue != 'undefined' && saveValue != null){
-            document.getElementById(key).value = saveValue;
-        }
-    }
+const loadAnswer = (qKey) => {
+    const key = 'answer' + qKey;
+    const saveValue = localStorage.getItem(key);
+    document.getElementById(key).value = saveValue;
 };
 
 // 自分の解答をセーブする
@@ -50,7 +46,7 @@ let list = [];
 
 // allList から3つまとめた li 要素を除いて問題文だけにする。（生徒はちょうど3つだけ問題を作るから）
 for ( let i in allList ){
-    if ( i % 4 != 0 ){
+    if ( i % 4 !== 0 ){
         list.push(allList[i].innerText);
     }
 }
@@ -84,12 +80,12 @@ const parentDiv = document.getElementsByTagName('font')[3]; // 3番目のfont ta
 parentDiv.appendChild(newListTable);
 
 // 答えが入力されている場合、localStorageからロードする
-loadAnswer(questions);
+for (let qKey of questions){
+    loadAnswer(qKey);
+}
 
 // inputされた都度localStorageに保存するようなイベントリスナーを設定する
 for ( let qKey of questions ){
     const answerNode = document.getElementById('answer' + qKey);
-    answerNode.addEventListener('input',() => {
-        saveAnswer(qKey);
-    }, false);
+    answerNode.addEventListener('input',() => saveAnswer(qKey), false);
 }
