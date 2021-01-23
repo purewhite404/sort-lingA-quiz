@@ -40,8 +40,8 @@ const loadAnswer = (qs) => {
 // 自分の解答をセーブする
 const saveAnswer = (qKey) => {
     const key = 'answer' + qKey;
-    const inputBox = document.getElementById(key);
-    localStorage.setItem(key, inputBox.value);
+    const inputBox = document.getElementById(key).value;
+    localStorage.setItem(key, inputBox);
 };
 
 // 一旦HTML内の li 要素をすべて取得
