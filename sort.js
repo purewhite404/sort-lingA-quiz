@@ -22,8 +22,14 @@ const separatePage = (sentence) => {
 
 // 問題、自分の解答を一つのlist itemにまとめる
 const addQA = (listItem, question) => {
+    // チェックボックス
+    const checkbox = document.createElement('input');
+    checkbox.setAttribute('type', 'checkbox');
+    checkbox.setAttribute('id', 'check' + question);
+
     // 問題
     const questionNode = document.createElement('p');
+    questionNode.appendChild(checkbox)
     questionNode.appendChild(document.createTextNode(question));
 
     // 自分の解答
@@ -44,11 +50,25 @@ const loadAnswer = (qKey) => {
     document.getElementById(key).value = saveValue;
 };
 
+// 自分のチェックボックスをロードする
+const loadChecked = (qKey) => {
+    const key = 'check' + qKey;
+    const saveValue = localStorage.getItem(key);
+    document.getElementById(key).checked = JSON.parse(saveValue);
+};
+
 // 自分の解答をセーブする
 const saveAnswer = (qKey) => {
     const key = 'answer' + qKey;
     const inputBox = document.getElementById(key).value;
     localStorage.setItem(key, inputBox);
+};
+
+// 自分のチェックボックスをセーブする
+const saveChecked = (qKey) => {
+    const key = 'check' + qKey;
+    const checkBox = document.getElementById(key).checked;
+    localStorage.setItem(key, checkBox);
 };
 
 // 一旦HTML内の li 要素をすべて取得
@@ -93,10 +113,13 @@ parentDiv.appendChild(newListTable);
 // 答えが入力されている場合、localStorageからロードする
 for (let qKey of questions){
     loadAnswer(qKey);
+    loadChecked(qKey);
 }
 
 // inputされた都度localStorageに保存するようなイベントリスナーを設定する
 for ( let qKey of questions ){
     const answerNode = document.getElementById('answer' + qKey);
+    const checkboxNode = document.getElementById('check' + qKey);
     answerNode.addEventListener('input',() => saveAnswer(qKey), false);
+    checkboxNode.addEventListener('click',() => saveChecked(qKey), false);
 }
