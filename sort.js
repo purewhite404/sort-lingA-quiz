@@ -1,10 +1,21 @@
+// ページ番号を取り出す
+// 複数ページの場合一番最初のページ
+const sliceFirst = (allpage) => {
+    let p = allpage.slice(4); // '(p. 'を除く
+    let result = '';
+    while ( !isNaN(p[0]) ){
+        result += p[0];
+        p = p.slice(1); // pから最初の文字を消す
+    }
+    return result;
+};
+
 // 問題文と最初のページ数と全ページ数の組(sentence, pagenum(num), allpage(num-num))を作る
 const separatePage = (sentence) => {
     const start = sentence.lastIndexOf('(p.'); // '(p.'を探して切り出すstart位置を決める
-    const p = sentence.substr(start + 4, 3); // 数字部分からの3文字を切り出す（教科書が3桁ページまでだから）
-    const sentenceOnly = sentence.slice(0, start-1); // 問題文だけを取り出す
-    const pagenum = Number(p.replace(/[^0-9]/g, '')); // 数字だけ取り出す
     const allpage = sentence.slice(start); //全ページを取り出す（特に複数にまたがるページ）
+    const sentenceOnly = sentence.slice(0, start-1); // 問題文だけを取り出す
+    const pagenum = Number(sliceFirst(allpage));
     return [sentenceOnly, pagenum, allpage];
 };
 
