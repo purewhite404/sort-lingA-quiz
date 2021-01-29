@@ -3,7 +3,7 @@
 const sliceFirst = (allpage) => {
     let p = allpage.slice(4); // '(p. 'を除く
     let result = '';
-    while ( !isNaN(p[0]) ){
+    while ( !isNaN(p[0]) && p[0] != ' '){
         result += p[0];
         p = p.slice(1); // pから最初の文字を消す
     }
