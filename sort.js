@@ -98,7 +98,7 @@ questions.sort((a,b) => dict[a]-dict[b]);
 document.getElementsByTagName('ol')[0].remove();
 
 // 再描画
-const newListTable = document.createElement('ul');
+const newListTable = document.createElement('ol');
 let newLi = [];
 for ( let i in questions ){
     newLi.push(document.createElement('li'));
